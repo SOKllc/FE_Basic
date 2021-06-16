@@ -1,0 +1,10 @@
+.SideDrawer {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+  }
