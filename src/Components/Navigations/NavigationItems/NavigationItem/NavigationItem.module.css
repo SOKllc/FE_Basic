@@ -1,0 +1,12 @@
+.NavigationItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100px;
+  height: 80%;
+}
+
+.NavigationLink {
+  text-decoration: none;
+  color: white;
+}

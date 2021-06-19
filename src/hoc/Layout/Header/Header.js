@@ -2,8 +2,16 @@ import React from "react";
 
 import classes from "./Header.module.css";
 
+import Logo from "../../../Components/Logo/Logo";
+import NavigationItems from "../../../Components/Navigations/NavigationItems/NavigationItems";
+
 const header = (props) => {
-  return <div className={classes.Header}>Header</div>;
+  return (
+    <div className={classes.Header}>
+      <Logo />
+      <NavigationItems />
+    </div>
+  );
 };
 
 export default header;

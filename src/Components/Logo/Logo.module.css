@@ -1,0 +1,8 @@
+.Logo {
+  display: flex;
+}
+
+.Logo img {
+  height: 50px;
+  width: auto;
+}
