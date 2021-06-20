@@ -11,7 +11,9 @@ const header = (props) => {
     <div className={classes.Header}>
       <SideDrawerToggle clicked={props.sideDrawerToggleClicked} />
       <Logo />
-      <NavigationItems />
+      <nav className={classes.Navigation}>
+        <NavigationItems />
+      </nav>
     </div>
   );
 };

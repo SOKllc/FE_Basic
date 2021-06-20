@@ -5,3 +5,15 @@
   align-content: center;
   align-items: center;
 }
+
+.Navigation {
+  flex: auto;
+  display: flex;
+  height: 100%;
+}
+
+@media (max-width: 750px) {
+  .Navigation {
+    display: none;
+  }
+}

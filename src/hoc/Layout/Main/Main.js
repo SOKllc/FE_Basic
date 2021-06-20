@@ -9,7 +9,7 @@ import Sidebar from "./Sidebar/Sidebar";
 const main = (props) => {
   return (
     <div className={classes.Main}>
-      <SideDrawer show={props.showSideDrawer}/>
+      <SideDrawer show={props.showSideDrawer} backdropClick={props.backdropClick} />
       <Sidebar />
       <Content />
       <Sidebar />

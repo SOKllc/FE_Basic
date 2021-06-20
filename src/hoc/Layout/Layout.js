@@ -10,8 +10,8 @@ class Layout extends Component {
     showSideDrawer: false,
   };
 
-  sideDrawerCloseHandler = () => {
-    this.setState({ showSideDrawer: flase });
+  backdropClickHandler = () => {
+    this.setState({ showSideDrawer: false });
   };
 
   sideDrawerToggleHandler = () => {
@@ -24,7 +24,10 @@ class Layout extends Component {
     return (
       <div className={classes.Layout}>
         <Header sideDrawerToggleClicked={this.sideDrawerToggleHandler} />
-        <Main showSideDrawer={this.state.showSideDrawer} />
+        <Main
+          showSideDrawer={this.state.showSideDrawer}
+          backdropClick={this.backdropClickHandler}
+        />
         <Footer />
       </div>
     );

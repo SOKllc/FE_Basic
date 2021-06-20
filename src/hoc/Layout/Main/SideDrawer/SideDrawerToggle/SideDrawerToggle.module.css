@@ -1,15 +1,25 @@
 .SideDrawerToggle {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-around;
-    align-items: center;
-    flex-basis: 50px;
-    cursor: pointer;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-basis: 50px;
+  cursor: pointer;
 }
 
 .SideDrawerToggle div {
-    width: 85%;
-    height: 5px;
-    background-color: white;
+  width: 85%;
+  height: 5px;
+  background-color: white;
+}
+
+@media (min-width: 751px) {
+  .SideDrawerToggle {
+    display: none;
+  }
 }

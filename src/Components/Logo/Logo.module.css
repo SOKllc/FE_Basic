@@ -6,3 +6,13 @@
   height: 50px;
   width: auto;
 }
+
+@media (max-width: 750px) {
+  .Logo {
+    flex: auto;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+}
+

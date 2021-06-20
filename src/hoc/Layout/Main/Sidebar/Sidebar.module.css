@@ -1,8 +1,13 @@
 .Sidebar {
-    flex-basis: 25%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
+  flex-basis: 25%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+@media (max-width: 750px) {
+  .Sidebar {
+    display: none;
   }
-  
+}

@@ -2,6 +2,13 @@ body {
   margin: 0;
   padding: 0;
   font-family: cursive, "Niconne", "Caveat";
+}
+
+div,
+nav,
+ul,
+li,
+img {
   background-color: black;
   color: white;
   box-sizing: border-box;

@@ -5,12 +5,15 @@
   z-index: 200;
   height: 100%;
   width: 35%;
-  background-color: white;
+  max-width: 300px;
+  background-color: black;
+  opacity: 0.9;
   display: flex;
+  flex-flow: column;
   justify-content: center;
   align-content: center;
   align-items: flex-start;
-  border: solid white thin;
+  border-right: solid white thin;
   transition: transform 0.3s ease-out;
 }
 
@@ -20,4 +23,28 @@
 
 .Close {
   transform: translate(-100%);
+}
+
+.Header {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-basis: 25%;
+  width: 100%;
+}
+
+.Navigation {
+  flex: auto;
+  display: flex;
+  width: 100%;
+}
+
+.Footer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-basis: 10%;
+  width: 100%;
 }
