@@ -1,9 +1,27 @@
-import React from "react";
+import React, { Component } from "react";
 
 import classes from "./Content.module.css";
 
-const content = (props) => {
-  return <div className={classes.Content}>Content</div>;
-};
+import Spinner from "../../../../UI/Spinner/Spinner";
 
-export default content;
+class Content extends Component {
+  state = {
+    getData: false,
+    WelcomeMessage: "Hello Axios...",
+  };
+
+  componentDidMount() {
+    if (!this.state.getData) {
+      setInterval(() => {
+        this.setState({ getData: true });
+      }, 10 * 1000);
+    }
+  }
+
+  render() {
+    let Content = this.state.getData ? <p>{this.state.WelcomeMessage}</p> : <Spinner />;
+    return <div className={classes.Content}>{Content}</div>;
+  }
+}
+
+export default Content;
