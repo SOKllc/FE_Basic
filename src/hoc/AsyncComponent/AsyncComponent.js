@@ -11,11 +11,9 @@ const asyncComponent = (importedComponent) => {
 
     componentDidMount() {
       if (!this.state.isMounted) {
-        setTimeout(() => {
-          importedComponent().then((cmp) => {
-            this.setState({ component: cmp.default, isMounted: true });
-          });
-        }, 3 * 1000);
+        importedComponent().then((cmp) => {
+          this.setState({ component: cmp.default, isMounted: true });
+        });
       }
     }
 
