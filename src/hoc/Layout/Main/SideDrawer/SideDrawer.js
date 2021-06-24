@@ -13,11 +13,11 @@ const sideDrawer = (props) => {
     : (combineClass = [...combineClass, classes.Close].join(" "));
   return (
     <Aux>
-      <Backdrop show={props.show} backdropClick={props.backdropClick} />
+      <Backdrop show={props.show} clicked={props.backdropClick} />
       <div className={combineClass}>
         <div className={classes.Header}>Header</div>
         <nav className={classes.Navigation}>
-          <NavigationItems />
+          <NavigationItems backdropClick={props.backdropClick}/>
         </nav>
         <div className={classes.Footer}>Footer</div>
       </div>

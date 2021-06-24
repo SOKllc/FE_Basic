@@ -7,8 +7,8 @@ import NavigationItem from "./NavigationItem/NavigationItem";
 const navigationItems = (props) => {
   return (
     <ul className={classes.NavigationItems}>
-      <NavigationItem Link="/">Home</NavigationItem>
-      <NavigationItem Link="/Preferance">Preferance</NavigationItem>
+      <NavigationItem Link="/" exact clicked={props.backdropClick}>Home</NavigationItem>
+      <NavigationItem Link="/Preferance" clicked={props.backdropClick}>Preferance</NavigationItem>
     </ul>
   );
 };

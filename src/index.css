@@ -13,3 +13,10 @@ img {
   color: white;
   box-sizing: border-box;
 }
+
+a:hover,
+a:active,
+a.active {
+  color: yellow;
+  text-decoration: underline;
+}
