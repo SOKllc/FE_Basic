@@ -17,11 +17,11 @@
   transition: transform 0.3s ease-out;
 }
 
-.Open {
+.Show {
   transform: translate(0);
 }
 
-.Close {
+.Hide {
   transform: translate(-100%);
 }
 
@@ -38,6 +38,11 @@
   flex: auto;
   display: flex;
   width: 100%;
+}
+
+.Navigation li {
+  width:100%;
+  height: 50px;
 }
 
 .Footer {

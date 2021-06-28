@@ -2,12 +2,12 @@ import React from "react";
 
 import classes from "./Logo.module.css";
 
-import defaultLogo from "../../Assets/Images/Profile/Default.png";
+import LogoIMG from "../../Assets/Images/Profile/Logo.png";
 
 const logo = (prps) => {
   return (
     <div className={classes.Logo}>
-      <img src={defaultLogo} ></img>
+      <img src={LogoIMG} alt="Logo" />
     </div>
   );
 };

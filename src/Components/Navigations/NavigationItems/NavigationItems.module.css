@@ -3,9 +3,9 @@
   padding: 0;
   display: flex;
   flex: auto;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-content: center;
-  align-items: flex-end;
+  align-items: center;
   list-style-type: none;
   height: 100%;
 }

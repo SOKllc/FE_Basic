@@ -7,10 +7,10 @@ import Backdrop from "../../../../UI/Backdrop/Backdrop";
 import NavigationItems from "../../../../Components/Navigations/NavigationItems/NavigationItems";
 
 const sideDrawer = (props) => {
-  let combineClass = [classes.SideDrawer];
+  let combineClass = classes.SideDrawer;
   props.show
-    ? (combineClass = [...combineClass, classes.Open].join(" "))
-    : (combineClass = [...combineClass, classes.Close].join(" "));
+    ? (combineClass = [combineClass, classes.Show].join(" "))
+    : (combineClass = [combineClass, classes.Hide].join(" "));
   return (
     <Aux>
       <Backdrop show={props.show} clicked={props.backdropClick} />
