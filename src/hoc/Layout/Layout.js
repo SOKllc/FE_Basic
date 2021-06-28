@@ -7,16 +7,16 @@ import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 class Layout extends Component {
   state = {
-    showSideDrawer: false,
+    sideDrawer: false,
   };
 
   backdropClickHandler = () => {
-    this.setState({ showSideDrawer: false });
+    this.setState({ sideDrawer: false });
   };
 
   sideDrawerToggleHandler = () => {
     this.setState((prevState) => {
-      return { showSideDrawer: !prevState.showSideDrawer };
+      return { sideDrawer: !prevState.sideDrawer };
     });
   };
 
@@ -25,7 +25,7 @@ class Layout extends Component {
       <div className={classes.Layout}>
         <Header sideDrawerToggleClicked={this.sideDrawerToggleHandler} />
         <Main
-          showSideDrawer={this.state.showSideDrawer}
+          sideDrawer={this.state.sideDrawer}
           backdropClick={this.backdropClickHandler}
         />
         <Footer />
