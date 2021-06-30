@@ -13,6 +13,5 @@
 @media (max-width: 750px) {
   .NavigationItems {
     flex-flow: column;
-    justify-content: flex-start;
   }
 }

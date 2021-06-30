@@ -1,9 +1,9 @@
 import React from "react";
 
-import classes from "./Footer.module.css";
+import Footer from "../../../Components/MyComponents/Footer/Footer";
 
 const footer = (props) => {
-  return <div className={classes.Footer}>Footer</div>;
+  return <Footer {...props}>Footer</Footer>;
 };
 
 export default footer;

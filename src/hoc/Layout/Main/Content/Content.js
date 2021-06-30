@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 
-import classes from "./Content.module.css";
+import Content from "../../../../Components/MyComponents/Content/Content";
 
 import Routes from "../../../../UI/Routes/Routes";
 
 const content = (props) => {
   return (
-    <div className={classes.Content}>
+    <Content {...props}>
       <Routes />
-    </div>
+    </Content>
   );
 };
 

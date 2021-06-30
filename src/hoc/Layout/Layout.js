@@ -28,7 +28,7 @@ class Layout extends Component {
           sideDrawer={this.state.sideDrawer}
           backdropClick={this.backdropClickHandler}
         />
-        <Footer />
+        <Footer className={classes.Footer} />
       </div>
     );
   }

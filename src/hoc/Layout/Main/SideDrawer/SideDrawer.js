@@ -2,6 +2,10 @@ import React from "react";
 
 import classes from "./SideDrawer.module.css";
 
+import Header from "../../../../Components/MyComponents/Header/Header";
+import Content from "../../../../Components/MyComponents/Content/Content";
+import Footer from "../../../../Components/MyComponents/Footer/Footer";
+
 import Aux from "../../../Auxiliary/Auxiliary";
 import Backdrop from "../../../../UI/Backdrop/Backdrop";
 import NavigationItems from "../../../../Components/Navigations/NavigationItems/NavigationItems";
@@ -15,11 +19,13 @@ const sideDrawer = (props) => {
     <Aux>
       <Backdrop show={props.show} clicked={props.backdropClick} />
       <div className={combineClass}>
-        <div className={classes.Header}>Header</div>
-        <nav className={classes.Navigation}>
-          <NavigationItems backdropClick={props.backdropClick}/>
-        </nav>
-        <div className={classes.Footer}>Footer</div>
+        <Header className={classes.Header}>Header</Header>
+        <Content>
+          <nav className={classes.Navigation}>
+            <NavigationItems backdropClick={props.backdropClick} />
+          </nav>
+        </Content>
+        <Footer className={classes.Footer}>Footer</Footer>
       </div>
     </Aux>
   );

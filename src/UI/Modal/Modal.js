@@ -11,7 +11,6 @@ const modal = (props) => {
     ? (className = [className, classes.Show])
     : (className = [className, classes.Hide]);
   className = className.join(" ");
-  console.log(className);
   
   return (
     <Aux>
