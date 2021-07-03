@@ -19,7 +19,7 @@ const navigationItems = (props) => {
         Home
       </NavigationItem>
       <NavigationItem
-        Link="/Preferance"
+        Link="/Preferances"
         clicked={props.backdropClick}
         IMG={PreferanceIMG}
       >

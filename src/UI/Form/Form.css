@@ -1,0 +1,21 @@
+form {
+    width: 100%;
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+form header {
+    height: auto;
+    min-height: 25px;
+}
+
+form .Content {
+    justify-content: flex-start;
+}
+
+form footer {
+    height: auto;
+    min-height: 25px;
+}

@@ -1,0 +1,25 @@
+button {
+  margin: 1px;
+  padding: 0;
+  text-align: center;
+  border: 1px;
+  border-radius: 5px;
+  border-style: dotted;
+  box-sizing: border-box;
+  background-color: black;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.Icon {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.Normal {
+  min-width: 100px;
+  min-height: 35px;
+  font-size: small;
+}

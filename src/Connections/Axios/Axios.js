@@ -6,7 +6,7 @@ const instance = Axios.create({
 
 instance.interceptors.request.use(
   (req) => {
-    console.log("Instance", req);
+    // console.log("Instance", req);
     return req;
   },
   (err) => {
@@ -17,7 +17,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     (res) => {
-      console.log("Instance", res);
+      // console.log("Instance", res);
       return res;
     },
     (err) => {

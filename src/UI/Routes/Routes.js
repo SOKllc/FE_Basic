@@ -5,14 +5,15 @@ import Aux from "../../hoc/Auxiliary/Auxiliary";
 import AsyncComponent from "../../hoc/AsyncComponent/AsyncComponent";
 
 const AsyncHome = AsyncComponent(() => import("./Home/Home"));
-const AsyncPreferance = AsyncComponent(() => import("./Preferance/Preferance"));
+const AsyncPreferances = AsyncComponent(() => import("./Preferances/Preferances"));
 
 const routes = (props) => {
   return (
     <Aux>
       <Switch>
         <Route path="/" exact component={AsyncHome} />
-        <Route path="/Preferance" component={AsyncPreferance} />
+        <Route path="/Preferances" component={AsyncPreferances} />
+        <Redirect from="/" to="/" />
       </Switch>
     </Aux>
   );

@@ -1,0 +1,15 @@
+.Navigation {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.Navigation label {
+  margin: 0 5px;
+}
+
+.Disabled {
+  background-color: gray;
+  color: black;
+}

@@ -1,12 +1,17 @@
+// Local
 const currentPage = "Home";
 
 import React, { Component } from "react";
 
+// Connections
 import AxiosInstance from "../../../Connections/Axios/Axios";
 
+// Components
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import Spinner from "../../Spinner/Spinner";
 import Modal from "../../Modal/Modal";
+import Form from "../../Form/Form";
+import Button from "../../Button/Button";
 class Home extends Component {
   state = {
     WelcomeMessage: `Hello ${currentPage}...`,
@@ -20,13 +25,11 @@ class Home extends Component {
     });
   }
 
-  showModal = () => {
-    console.log('Show Modal')
+  showModalHandler = () => {
     this.setState({ Modal: true });
   };
 
-  hideModal = () => {
-    console.log('Hide Modal')
+  hideModalHandler = () => {
     this.setState({ Modal: false });
   };
 
@@ -35,11 +38,13 @@ class Home extends Component {
       <Aux>
         <Modal
           show={this.state.Modal}
-          showModal={this.showModal}
-          hideModal={this.hideModal}
-        >Hello Modal</Modal>
-        {this.state.WelcomeMessage}{" "}
-        <button onClick={this.showModal}>Modal</button>
+          showModal={this.showModalHandler}
+          hideModal={this.hideModalHandler}
+        >
+          <Form title={currentPage}/>
+        </Modal>
+        {this.state.WelcomeMessage}
+        <Button btntype='Normal' clicked={this.showModalHandler}>Modal</Button>
       </Aux>
     );
     return !this.state.getDataStatus ? <Spinner /> : Content;
