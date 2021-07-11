@@ -1,7 +1,7 @@
 import React from "react";
 
-import Checkbox from "../../Checkbox/Checkbox";
-import Textbox from "../../Textbox/TextBox";
+import Checkbox from "../../../Checkbox/Checkbox";
+import Textbox from "../../../Textbox/TextBox";
 
 const input = (props) => {
   let input = <p>Please set input type</p>;

@@ -4,7 +4,7 @@ import "./Button.css";
 
 const button = (props) => {
   let className = "";
-  switch (props.btntype) {
+  switch (props.btnType) {
     case "Icon":
       className = "Icon";
       break;
@@ -16,11 +16,14 @@ const button = (props) => {
       break;
   }
 
+  props.disabled ? (className = className + " disabled") : className;
+
   return (
     <button
       className={className}
       onClick={props.clicked}
       disabled={props.disabled}
+      hidden={props.hidden}
     >
       {props.children}
     </button>

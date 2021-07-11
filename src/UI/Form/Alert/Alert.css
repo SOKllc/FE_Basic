@@ -1,0 +1,43 @@
+.Alert {
+  position: fixed;
+  width: 50%;
+  z-index: 500;
+  background-color: black;
+  min-height: 200px;
+  border: 1px 1px 1px white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: center;
+  align-items: center;
+  transition: all 0.3s ease-out;
+}
+
+.Alert h4 {
+  width: 80%;
+  margin: 0;
+  text-align: left;
+}
+
+.Alert h5 {
+  width: 80%;
+  margin: 0;
+}
+
+.Alert div {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+}
+
+.Show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.Hide {
+  transform: translateY(-100vh);
+  opacity: 0;
+}

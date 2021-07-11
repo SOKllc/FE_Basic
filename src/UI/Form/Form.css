@@ -1,21 +1,25 @@
-form {
+.Form {
     width: 100%;
     flex: auto;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
     box-sizing: border-box;
 }
 
-form header {
+.Form header {
     height: auto;
     min-height: 25px;
 }
 
-form .Content {
+.Form .Content {
     justify-content: flex-start;
+    gap: 5px;
 }
 
-form footer {
+.Form footer {
     height: auto;
     min-height: 25px;
 }

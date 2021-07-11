@@ -1,6 +1,6 @@
 import React from "react";
 
-import Input from "../Input/Input";
+import Input from "./Input/Input";
 
 const inputs = (props) => {
   let recordset = props.recordset;
@@ -9,9 +9,10 @@ const inputs = (props) => {
       return (
         <Input
           key={inputKey}
-          id={inputKey}
+          id={props.parentID + "-" + inputKey}
           inputType={typeof recordset[inputKey]}
           inputLabel={inputKey}
+          onInputChange={props.onInputChange}
         />
       );
     });

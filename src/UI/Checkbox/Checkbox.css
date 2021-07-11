@@ -1,0 +1,23 @@
+.Checkbox {
+  height: 25px;
+  width: 80%;
+  display: flex;
+  align-items: center;
+}
+
+.Checkbox label {
+  height: 100%;
+  width: 20%;
+  font-size: small;
+}
+
+.Checkbox input {
+  margin: 0;
+  margin-left: 5px;
+  padding: 0;
+  height: 100%;
+  width: 20px;
+  display: flex;
+  border: 0;
+  cursor: pointer;
+}

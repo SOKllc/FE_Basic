@@ -1,5 +1,6 @@
 // Local
-const currentPage = "Preferances";
+const currentDirectory = "Admin";
+const currentPage = "Users";
 
 import React, { Component } from "react";
 
@@ -8,17 +9,19 @@ import AxiosInstance from "../../../Connections/Axios/Axios";
 
 // Components
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
-import Spinner from "../../Spinner/Spinner";
-import Form from "../../Form/Form";
+import Spinner from "../../../UI/Spinner/Spinner";
+import Form from "../../../UI/Form/Form";
 
-class Preferance extends Component {
+import Preferance from "../../../UI/Routes/Preferances/Preferances";
+
+class Users extends Component {
   state = {
     WelcomeMessage: `Hello ${currentPage}...`,
     getDataStatus: false,
   };
 
   componentDidMount() {
-    AxiosInstance.get(`/${currentPage}`).then((res) => {
+    AxiosInstance.get(`/${currentDirectory}/${currentPage}`).then((res) => {
       this.setState({ ...res.data, getDataStatus: true });
     });
   }
@@ -38,4 +41,4 @@ class Preferance extends Component {
   }
 }
 
-export default Preferance;
+export default Users;

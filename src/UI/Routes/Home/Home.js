@@ -12,6 +12,8 @@ import Spinner from "../../Spinner/Spinner";
 import Modal from "../../Modal/Modal";
 import Form from "../../Form/Form";
 import Button from "../../Button/Button";
+
+import Users from "../../../Containers/Admin/Users/Users";
 class Home extends Component {
   state = {
     WelcomeMessage: `Hello ${currentPage}...`,
@@ -25,12 +27,16 @@ class Home extends Component {
     });
   }
 
-  showModalHandler = () => {
+  showModal = () => {
     this.setState({ Modal: true });
   };
 
-  hideModalHandler = () => {
+  hideModal = () => {
     this.setState({ Modal: false });
+  };
+
+  yieldAlert = () => {
+    alert("Hello Alert");
   };
 
   render() {
@@ -38,13 +44,19 @@ class Home extends Component {
       <Aux>
         <Modal
           show={this.state.Modal}
-          showModal={this.showModalHandler}
-          hideModal={this.hideModalHandler}
+          showModal={this.showModal}
+          hideModal={this.hideModal}
         >
-          <Form title={currentPage}/>
+          <Users hideModal={this.hideModal} />
         </Modal>
         {this.state.WelcomeMessage}
-        <Button btntype='Normal' clicked={this.showModalHandler}>Modal</Button>
+        <Button btnType="Normal" clicked={this.showModal}>
+          Users
+        </Button>
+        <Users formID="1" />
+        <Button btnType="Normal" clicked={this.yieldAlert}>
+          Yield
+        </Button>
       </Aux>
     );
     return !this.state.getDataStatus ? <Spinner /> : Content;

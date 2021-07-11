@@ -1,7 +1,7 @@
 .Modal {
   position: fixed;
   z-index: 200;
-  background-color: Gray;
+  background-color: black;
   min-height: 250px;
   max-height: 70%;
   min-width: 70%;
