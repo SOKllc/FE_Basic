@@ -21,3 +21,10 @@
   border: 0;
   border-radius: 5px;
 }
+
+.Textbox input:disabled {
+  flex: none;
+  width: 10%;
+  text-align: center;
+  color: white;
+}

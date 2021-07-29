@@ -7,9 +7,10 @@ import Label from "../Label/Label";
 const textbox = (props) => {
   return (
     <div className="Textbox">
-      <Label>{props.inputLabel}</Label>
+      <Label noLabel={props.noLabel}>{props.inputLabel}</Label>
       <input
-        type="text"
+        type={props.inputType}
+        disabled={props.disabled}
         id={props.id}
         name={props.inputLabel}
         onChange={props.onInputChange}

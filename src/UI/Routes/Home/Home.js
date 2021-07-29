@@ -1,7 +1,12 @@
 // Local
 const currentPage = "Home";
 
+// React
 import React, { Component } from "react";
+
+// Redux
+import { connect } from "react-redux";
+import * as actionsTypes from "../../../Store/Actions/Actions";
 
 // Connections
 import AxiosInstance from "../../../Connections/Axios/Axios";
@@ -10,22 +15,17 @@ import AxiosInstance from "../../../Connections/Axios/Axios";
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import Spinner from "../../Spinner/Spinner";
 import Modal from "../../Modal/Modal";
-import Form from "../../Form/Form";
 import Button from "../../Button/Button";
 
+// Forms
 import Users from "../../../Containers/Admin/Users/Users";
+
 class Home extends Component {
   state = {
     WelcomeMessage: `Hello ${currentPage}...`,
-    getDataStatus: false,
+    DataStatus: false,
     Modal: false,
   };
-
-  componentDidMount() {
-    AxiosInstance.get("/").then((res) => {
-      this.setState({ ...res.data, getDataStatus: true });
-    });
-  }
 
   showModal = () => {
     this.setState({ Modal: true });
@@ -35,8 +35,16 @@ class Home extends Component {
     this.setState({ Modal: false });
   };
 
-  yieldAlert = () => {
-    alert("Hello Alert");
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    AxiosInstance.get("/").then((res) => {
+      let data = res.data.ConnectionData;
+      this.props.setSchema(data);
+      this.setState({ ...res.data, DataStatus: true });
+    });
   };
 
   render() {
@@ -53,14 +61,21 @@ class Home extends Component {
         <Button btnType="Normal" clicked={this.showModal}>
           Users
         </Button>
-        <Users formID="1" />
-        <Button btnType="Normal" clicked={this.yieldAlert}>
-          Yield
-        </Button>
       </Aux>
     );
-    return !this.state.getDataStatus ? <Spinner /> : Content;
+    return !this.state.DataStatus ? <Spinner /> : Content;
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setSchema: (data) =>
+      dispatch({ type: actionsTypes.SET_SCHEMA, data: data }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

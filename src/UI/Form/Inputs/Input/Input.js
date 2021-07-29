@@ -6,15 +6,20 @@ import Textbox from "../../../Textbox/TextBox";
 const input = (props) => {
   let input = <p>Please set input type</p>;
   switch (props.inputType) {
-    case "boolean":
+    case "text":
+      input = <Textbox {...props} />;
+      break;
+    case "checkbox":
       input = <Checkbox {...props} />;
       break;
-    case "string":
-      input = <Textbox {...props} />;
+    case "hidden":
+      input = <Textbox {...props} noLabel />;
       break;
     case "number":
       input = <Textbox {...props} />;
       break;
+    case "file":
+      input = <Textbox {...props} />;
     default:
       input;
       break;

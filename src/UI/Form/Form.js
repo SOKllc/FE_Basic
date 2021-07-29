@@ -1,4 +1,8 @@
+// React
 import React, { Component } from "react";
+
+// Redux
+import { connect } from "react-redux";
 
 import "./Form.css";
 
@@ -12,8 +16,9 @@ import Controls from "./Controls/Controls";
 
 class Form extends Component {
   state = {
+    formSchema: this.props.Schema.Tables[this.props.title],
     formAlert: null,
-    formAddNew: false,
+    formAddNew: this.props.recordsets.length === 0 ? true : false,
     formDataStatus: this.props.recordsets ? true : false,
     formTitle: this.props.title,
     formID: this.props.formID
@@ -25,12 +30,13 @@ class Form extends Component {
         : this.props.recordsets.length
       : 0,
     formCurrentRecord: this.props.currentRecord ? this.props.currentRecord : 0,
-    formRecordsets: this.props.recordsets ? this.props.recordsets : null,
-    formRecordset: this.props.recordsets
-      ? this.props.recordsets[
-          this.props.currentRecord ? this.props.currentRecord : 0
-        ]
-      : null,
+    formRecordsets: this.props.recordsets,
+    formRecordset:
+      this.props.recordsets.length > 0
+        ? this.props.recordsets[
+            this.props.currentRecord ? this.props.currentRecord : 0
+          ]
+        : {},
     formInputsChanged: false,
   };
 
@@ -73,14 +79,17 @@ class Form extends Component {
   setInputsValues = (recordset) => {
     if (this.state.formDataStatus) {
       let formID = this.state.formID;
-      Object.keys(recordset).map((inputName) => {
-        let inputValue = recordset[inputName];
-        let inputID = formID + "-" + inputName;
-        let input = document.getElementById(inputID);
-        input.type === "checkbox"
-          ? (input.checked = inputValue ? true : false)
-          : (input.value = inputValue);
-      });
+      if (this.state.formRecordset) {
+        Object.keys(recordset).map((inputName) => {
+          let inputValue = recordset[inputName];
+          let inputID = formID + "-" + inputName;
+          let input = document.getElementById(inputID);
+          let inputType = input.type;
+          inputType === "checkbox"
+            ? (input.checked = inputValue ? true : false)
+            : (input.value = inputValue);
+        });
+      }
     }
   };
 
@@ -153,7 +162,11 @@ class Form extends Component {
       let changedRecordset = this.getInputsValues();
       return !Object.keys(originalRecordset)
         .map((inputName) => {
-          return originalRecordset[inputName] == changedRecordset[inputName];
+          let originalValue =
+            originalRecordset[inputName] === null
+              ? 0
+              : originalRecordset[inputName];
+          return originalValue == changedRecordset[inputName];
         })
         .includes(false);
     }
@@ -198,53 +211,15 @@ class Form extends Component {
                 [input.name]: input.value,
               });
         });
-        let newRecord = this.state.formTotalRecords + 1;
-        let newRecordsets = [...this.state.formRecordsets, newRecordset];
-        this.setState(
-          {
-            formAddNew: false,
-            formTotalRecords: newRecord,
-            formCurrentRecord: newRecord - 1,
-            formRecordsets: newRecordsets,
-            formRecordset: newRecordset,
-            formInputsChanged: false,
-          },
-          () => {
-            let newRecord = this.state.formCurrentRecord;
-            this.onCurrentRecord(newRecord);
-            this.hideAlert();
-          }
-        );
+        this.props.addData(newRecordset);
       }
-    // on Edit...
+      // on Edit...
     } else {
       if (this.checkChanges()) {
         return;
       } else {
-        let currentRecord = this.state.formCurrentRecord;
         let updatedRecordset = this.getInputsValues();
-        let updatedRecordsets = {
-          ...this.state.formRecordsets,
-          [currentRecord]: updatedRecordset,
-        };
-        this.setState(
-          {
-            formInputsChanged: false,
-            formRecordsets: updatedRecordsets,
-            formRecordset: updatedRecordset,
-          },
-          () => {
-            if (this.state.formAlert) {
-              if (this.state.formAlert.newRecord) {
-                let newRecord = this.state.formAlert.newRecord;
-                this.onCurrentRecord(newRecord);
-              } else {
-                this.onAddNew();
-              }
-            }
-            this.hideAlert();
-          }
-        );
+        this.props.editData(updatedRecordset);
       }
     }
   };
@@ -255,7 +230,7 @@ class Form extends Component {
       this.setState({ formAddNew: true });
     } else {
       let newFormAlert = {
-        massage: "Data changed, do you want to save",
+        massage: "Data changed, do you want to save?",
         response: null,
       };
       this.showAlert(newFormAlert);
@@ -312,6 +287,7 @@ class Form extends Component {
           />
           <br />
           <Inputs
+            formSchema={this.state.formSchema}
             recordset={this.state.formRecordset}
             parentID={this.state.formID}
             onInputChange={() => this.onInputChange()}
@@ -330,4 +306,14 @@ class Form extends Component {
   }
 }
 
-export default Form;
+const mapStateToProps = (state) => {
+  return {
+    Schema: state.Schema,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

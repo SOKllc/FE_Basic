@@ -1,7 +1,12 @@
 // Local
 const currentPage = "Preferances";
 
+// React
 import React, { Component } from "react";
+
+// Redux
+import { connect } from "react-redux";
+import * as actionsTypes from "../../../Store/Actions/Actions";
 
 // Connections
 import AxiosInstance from "../../../Connections/Axios/Axios";
@@ -14,18 +19,22 @@ import Form from "../../Form/Form";
 class Preferance extends Component {
   state = {
     WelcomeMessage: `Hello ${currentPage}...`,
-    getDataStatus: false,
+    DataStatus: false,
   };
 
   componentDidMount() {
-    AxiosInstance.get(`/${currentPage}`).then((res) => {
-      this.setState({ ...res.data, getDataStatus: true });
-    });
+    this.getData();
   }
 
+  getData = () => {
+    AxiosInstance.get(`/${currentPage}`).then((res) => {
+      this.setState({ ...res.data, DataStatus: true });
+    });
+  };
+
   render() {
-    let recordsets = !this.state.getDataStatus
-      ? []
+    let recordsets = !this.state.DataStatus
+      ? null
       : this.state.ConnectionData.recordsets[0];
 
     let Content = (
@@ -34,8 +43,16 @@ class Preferance extends Component {
       </Aux>
     );
 
-    return !this.state.getDataStatus ? <Spinner /> : Content;
+    return !this.state.DataStatus ? <Spinner /> : Content;
   }
 }
 
-export default Preferance;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Preferance);
