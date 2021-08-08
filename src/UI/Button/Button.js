@@ -16,13 +16,13 @@ const button = (props) => {
       break;
   }
 
-  props.disabled ? (className = className + " disabled") : className;
+  props.isDisabled ? (className = className + " disabled") : className;
 
   return (
     <button
       className={className}
       onClick={props.clicked}
-      disabled={props.disabled}
+      disabled={props.isDisabled}
       hidden={props.hidden}
     >
       {props.children}

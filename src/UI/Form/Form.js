@@ -81,39 +81,84 @@ class Form extends Component {
       let formID = this.state.formID;
       if (this.state.formRecordset) {
         Object.keys(recordset).map((inputName) => {
-          let inputValue = recordset[inputName];
           let inputID = formID + "-" + inputName;
           let input = document.getElementById(inputID);
+          let inputValue = recordset[inputName];
           let inputType = input.type;
-          inputType === "checkbox"
-            ? (input.checked = inputValue ? true : false)
-            : (input.value = inputValue);
+          switch (inputType) {
+            case "checkbox":
+              input.checked = inputValue ? true : false;
+              break;
+            case "number":
+              inputValue === null
+                ? (input.value = 0)
+                : (input.value = inputValue);
+              break;
+            case "text":
+              inputValue === null
+                ? (input.value = "")
+                : (input.value = inputValue.trim());
+              break;
+            case "password":
+              inputValue === null
+                ? (input.value = "")
+                : (input.value = inputValue.trim());
+              break;
+            default:
+              input.value = inputValue;
+              break;
+          }
         });
       }
     }
   };
 
-  getInputsValues = () => {
+  getInputsValues = (method) => {
     let formID = this.state.formID;
     let inputs = document.getElementById(formID).getElementsByTagName("input");
-    let updatedInputs = {};
+    let inputsValues = {};
+    let httpInputs = this.state.formSchema.Columns.filter((column) => {
+      return column.Config.isHTTPInput;
+    }).reduce((acc, cur) => (acc = [...acc, cur.Name]), []);
     Array.from(inputs).forEach((input) => {
-      let inputValue =
-        input.type === "checkbox"
-          ? input.checked
-            ? true
-            : false
-          : input.value;
-      updatedInputs = { ...updatedInputs, [input.name]: inputValue };
+      let inputName = input.name;
+      let inputValue = input.value;
+      let inputType = input.type;
+      let httpInput = httpInputs.includes(inputName);
+      if (method === "httpData" && !httpInput) {
+        inputsValues = { ...inputsValues };
+      } else {
+        switch (inputType) {
+          case "checkbox":
+            inputValue = input.checked ? true : false;
+            break;
+          case "number":
+            inputValue = Number(input.value);
+            break;
+          case "text":
+            inputValue = input.value.trim();
+            break;
+          case "password":
+            inputValue = input.value.trim();
+            break;
+          default:
+            inputValue;
+            break;
+        }
+        inputsValues = { ...inputsValues, [inputName]: inputValue };
+      }
     });
-    return updatedInputs;
+    return inputsValues;
   };
 
   clearInputsValues = () => {
     let formID = this.state.formID;
     let inputs = document.getElementById(formID).getElementsByTagName("input");
     Array.from(inputs).forEach((input) => {
-      input.type === "checkbox" ? (input.checked = false) : (input.value = "");
+      let inputDefaultValue = this.getDefaultValue(input);
+      input.type === "checkbox"
+        ? (input.checked = inputDefaultValue)
+        : (input.value = inputDefaultValue);
     });
   };
 
@@ -139,37 +184,78 @@ class Form extends Component {
     }
   };
 
-  onInputChange = () => {
+  onInputChange = (event) => {
+    let inputName = event.target.name;
+    this.checkValidation(inputName);
     this.setState({ formInputsChanged: true });
+  };
+
+  checkValidation = (inputName) => {
+    let inputsValidation = this.state.formSchema.Columns.filter((column) => {
+      return column.Name === inputName;
+    });
+    let inputValidation = inputsValidation[0].validation;
+    // console.log(inputValidation);
+  };
+
+  getDataValue = (input) => {
+    let inputName = input.name;
+    let inputType = input.type;
+    let dataValue = this.state.formRecordset[inputName];
+    switch (inputType) {
+      case "checkbox":
+        return dataValue === null ? false : dataValue;
+      case "number":
+        return dataValue === null ? 0 : dataValue;
+      case "text":
+        return dataValue === null ? "" : dataValue.trim();
+      case "password":
+        return dataValue === null ? "" : dataValue.trim();
+      default:
+        return dataValue;
+    }
+  };
+
+  getDefaultValue = (input) => {
+    let inputName = input.name;
+    let inputType = input.type;
+    let inputsDefaultValue = this.state.formSchema.Columns.filter((column) => {
+      return column.Name === inputName;
+    });
+    let defaultValue = inputsDefaultValue[0].Config.defaultValue;
+    switch (inputType) {
+      case "checkbox":
+        return defaultValue === undefined ? false : Number(defaultValue);
+      case "number":
+        return defaultValue === undefined ? 0 : Number(defaultValue);
+      case "text":
+        return defaultValue === undefined
+          ? ""
+          : defaultValue.replace(/[']/g, "");
+      case "password":
+        return defaultValue === undefined ? "" : defaultValue;
+      case "hidden":
+        return (defaultValue = "");
+      default:
+        return defaultValue;
+    }
   };
 
   // Check if any changes accured compared with the oldRecordset
   checkChanges = () => {
-    if (this.state.formAddNew) {
-      let formID = this.state.formID;
-      let checkValues = [];
-      let inputs = document
-        .getElementById(formID)
-        .getElementsByTagName("input");
-      Array.from(inputs).forEach((input) => {
-        return input.type === "checkbox"
-          ? (checkValues = [...checkValues, input.checked === false])
-          : (checkValues = [...checkValues, input.value === ""]);
-      });
-      return !checkValues.includes(false);
-    } else {
-      let originalRecordset = this.state.formRecordset;
-      let changedRecordset = this.getInputsValues();
-      return !Object.keys(originalRecordset)
-        .map((inputName) => {
-          let originalValue =
-            originalRecordset[inputName] === null
-              ? 0
-              : originalRecordset[inputName];
-          return originalValue == changedRecordset[inputName];
-        })
-        .includes(false);
-    }
+    let checkChanges = [];
+    let formID = this.state.formID;
+    let inputsValues = this.getInputsValues();
+    let inputs = document.getElementById(formID).getElementsByTagName("input");
+    Array.from(inputs).forEach((input) => {
+      let inputName = input.name;
+      let dataValue = this.state.formAddNew
+        ? this.getDefaultValue(input)
+        : this.getDataValue(input);
+      let inputValue = inputsValues[inputName];
+      checkChanges.push(dataValue === inputValue);
+    });
+    return !checkChanges.includes(false);
   };
 
   onCancel = () => {
@@ -189,38 +275,12 @@ class Form extends Component {
     );
   };
 
-  onSave = () => {
-    // on Add New...
-    if (this.state.formAddNew) {
-      if (this.checkChanges()) {
-        return;
-      } else {
-        let formID = this.state.formID;
-        let newRecordset = {};
-        let inputs = document
-          .getElementById(formID)
-          .getElementsByTagName("input");
-        Array.from(inputs).forEach((input) => {
-          return input.type === "checkbox"
-            ? (newRecordset = {
-                ...newRecordset,
-                [input.name]: input.checked,
-              })
-            : (newRecordset = {
-                ...newRecordset,
-                [input.name]: input.value,
-              });
-        });
-        this.props.addData(newRecordset);
-      }
-      // on Edit...
+  onClose = () => {
+    if (this.checkChanges()) {
+      this.onCancel();
+      this.props.hideModal();
     } else {
-      if (this.checkChanges()) {
-        return;
-      } else {
-        let updatedRecordset = this.getInputsValues();
-        this.props.editData(updatedRecordset);
-      }
+      console.log("unHandeled Changes...");
     }
   };
 
@@ -237,12 +297,22 @@ class Form extends Component {
     }
   };
 
-  onClose = () => {
+  onSave = () => {
     if (this.checkChanges()) {
-      this.props.hideModal();
+      this.onCancel();
+      return;
     } else {
-      console.log("unHandeled Changes...");
+      let recordset = this.getInputsValues("httpData");
+      let httpID = this.state.formRecordset["ID"];
+      this.state.formAddNew
+        ? this.props.addData(recordset)
+        : this.props.editData(httpID, recordset);
     }
+  };
+
+  onDelete = () => {
+    let httpID = this.state.formRecordset["ID"];
+    this.props.deleteData(httpID);
   };
 
   controlsAction = (controlType) => {
@@ -258,6 +328,9 @@ class Form extends Component {
         break;
       case "CLOSE":
         this.onClose();
+        break;
+      case "DELETE":
+        this.onDelete();
         break;
       default:
         console.log("Form control not Specified...");
@@ -290,13 +363,14 @@ class Form extends Component {
             formSchema={this.state.formSchema}
             recordset={this.state.formRecordset}
             parentID={this.state.formID}
-            onInputChange={() => this.onInputChange()}
+            onInputChange={(event) => this.onInputChange(event)}
           />
           <br />
           <Controls
             controlsAction={(controlType) => this.controlsAction(controlType)}
             hideModal={this.props.hideModal}
             addNew={this.state.formAddNew}
+            emptyData={this.props.recordsets.length === 0}
             inputsChanged={this.state.formInputsChanged}
           />
         </Content>

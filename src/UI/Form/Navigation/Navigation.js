@@ -44,18 +44,18 @@ const navigation = (props) => {
   if (props.totalRecords > 1) {
     return (
       <nav className="Navigation">
-        <Button btnType="Icon" clicked={moveFirst}>
+        <Button btnType="Icon" clicked={moveFirst} isDisabled={props.addNew}>
           {"<<"}
         </Button>
-        <Button btnType="Icon" clicked={movePrevious}>
+        <Button btnType="Icon" clicked={movePrevious} isDisabled={props.addNew}>
           {"<"}
         </Button>
         <Label>{props.currentRecord + 1}</Label>/
         <Label>{props.totalRecords}</Label>
-        <Button btnType="Icon" clicked={moveNext}>
+        <Button btnType="Icon" clicked={moveNext} isDisabled={props.addNew}>
           {">"}
         </Button>
-        <Button btnType="Icon" clicked={moveLast}>
+        <Button btnType="Icon" clicked={moveLast} isDisabled={props.addNew}>
           {">>"}
         </Button>
         {props.hideModal ? null : addNewButton}

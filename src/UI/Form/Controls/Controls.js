@@ -21,7 +21,11 @@ const controls = (props) => {
     props.controlsAction("CLOSE");
   };
 
-  let disabled = props.inputsChanged ? false : true;
+  const onDelete = () => {
+    props.controlsAction("DELETE");
+  };
+
+  let isDisabled = props.inputsChanged ? false : true;
 
   const cancelButton = (
     <Button btnType="Normal" clicked={onCancel}>
@@ -30,7 +34,7 @@ const controls = (props) => {
   );
 
   const saveButton = (
-    <Button btnType="Normal" clicked={onSave} disabled={disabled}>
+    <Button btnType="Normal" clicked={onSave} isDisabled={isDisabled}>
       Save
     </Button>
   );
@@ -47,21 +51,37 @@ const controls = (props) => {
     </Button>
   );
 
+  const deleteButton = (
+    <Button btnType="Normal" clicked={onDelete}>
+      Delete
+    </Button>
+  );
+
   if (props.hideModal) {
     return (
       <div className="Controls">
-        {props.inputsChanged ? null : closeButton}
+        {props.addNew || props.inputsChanged ? null : closeButton}
         {props.addNew || props.inputsChanged ? null : addNewButton}
-        {props.addNew || props.inputsChanged ? cancelButton : null}
+        {props.addNew || props.inputsChanged
+          ? props.emptyData
+            ? null
+            : cancelButton
+          : null}
         {saveButton}
+        {props.addNew || props.inputsChanged ? null : deleteButton}
       </div>
     );
   } else {
     return (
       <div className="Controls">
         {props.addNew || props.inputsChanged ? null : addNewButton}
-        {props.addNew || props.inputsChanged ? cancelButton : null}
+        {props.addNew || props.inputsChanged
+          ? props.emptyData
+            ? null
+            : cancelButton
+          : null}
         {saveButton}
+        {props.addNew || props.inputsChanged ? null : deleteButton}
       </div>
     );
   }

@@ -41,7 +41,7 @@ class Home extends Component {
 
   getData = () => {
     AxiosInstance.get("/").then((res) => {
-      let data = res.data.ConnectionData;
+      let data = res.data.Connection.Data;
       this.props.setSchema(data);
       this.setState({ ...res.data, DataStatus: true });
     });

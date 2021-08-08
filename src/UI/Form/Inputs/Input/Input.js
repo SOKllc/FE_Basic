@@ -18,6 +18,9 @@ const input = (props) => {
     case "number":
       input = <Textbox {...props} />;
       break;
+    // case "password":
+    //   input = <Textbox {...props} />;
+    //   break;
     case "file":
       input = <Textbox {...props} />;
     default:

@@ -9,8 +9,8 @@ const textbox = (props) => {
     <div className="Textbox">
       <Label noLabel={props.noLabel}>{props.inputLabel}</Label>
       <input
-        type={props.inputType}
-        disabled={props.disabled}
+        type={props.isPassword ? "password" : props.inputType}
+        disabled={props.isDisabled}
         id={props.id}
         name={props.inputLabel}
         onChange={props.onInputChange}
