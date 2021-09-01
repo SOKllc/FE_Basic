@@ -1,24 +1,19 @@
-// httpURL
 const currentDirectory = "Admin";
 const currentPage = "Users";
 let httpURL = currentDirectory
   ? currentDirectory + "/" + currentPage
   : currentPage;
 
-// React
 import React, { Component } from "react";
 
-// Redux
 import { connect } from "react-redux";
 import * as actionsTypes from "../../../Store/Actions/Actions";
 
-// Connections
 import AxiosInstance from "../../../Connections/Axios/Axios";
 
-// Components
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import Spinner from "../../../UI/Spinner/Spinner";
-import Form from "../../../UI/Form/Form";
+import DataForm from "../../../UI/Form/DataForm/DataForm";
 
 class Users extends Component {
   state = {
@@ -31,43 +26,43 @@ class Users extends Component {
   }
 
   getData = () => {
-    AxiosInstance.get(`/${httpURL}`).then((res) => {
-      this.setState({ ...res.data, DataStatus: true });
-    });
+    let axiosConfig = {
+      headers: {
+        DatabaseName: this.props.databaseName,
+      },
+    };
+    AxiosInstance.get(`/${httpURL}`, axiosConfig)
+      .then((res) => {
+        this.setState({ ...res.data, DataStatus: true });
+      })
   };
 
   addData = (recordset) => {
+    let axiosConfig = {
+      headers: {
+        DatabaseName: this.props.databaseName,
+      },
+    };
     return new Promise((resolve, reject) => {
       this.setState({ DataStatus: false }, () => {
-        AxiosInstance.post(
-          `/${httpURL}`,
-          recordset
-        ).then(() => {
-          resolve();
-          this.getData();
-        });
+        AxiosInstance.post(`/${httpURL}`, recordset, axiosConfig)
+          .then(() => {
+            resolve();
+            this.getData();
+          })
       });
     });
   };
 
   editData = (ID, recordset) => {
+    let axiosConfig = {
+      headers: {
+        DatabaseName: this.props.databaseName,
+      },
+    };
     return new Promise((resolve, reject) => {
       this.setState({ DataStatus: false }, () => {
-        AxiosInstance.put(
-          `/${httpURL}/${ID}`,
-          recordset
-        ).then(() => {
-          resolve();
-          this.getData();
-        });
-      });
-    });
-  };
-
-  deleteData = (ID) => {
-    return new Promise((resolve, reject) => {
-      this.setState({ DataStatus: false }, () => {
-        AxiosInstance.delete(`/${httpURL}/${ID}`).then(
+        AxiosInstance.put(`/${httpURL}/${ID}`, recordset, axiosConfig).then(
           () => {
             resolve();
             this.getData();
@@ -77,14 +72,30 @@ class Users extends Component {
     });
   };
 
+  deleteData = (ID) => {
+    let axiosConfig = {
+      headers: {
+        DatabaseName: this.props.databaseName,
+      },
+    };
+    return new Promise((resolve, reject) => {
+      this.setState({ DataStatus: false }, () => {
+        AxiosInstance.delete(`/${httpURL}/${ID}`, axiosConfig).then(() => {
+          resolve();
+          this.getData();
+        });
+      });
+    });
+  };
+
   render() {
-    let recordsets = !this.state.DataStatus ? [] : this.state.Connection.Data;
+    let recordsets = !this.state.DataStatus ? [] : this.state.Connection.MainData;
 
     let Content = (
       <Aux>
-        <Form
+        <DataForm
           {...this.props}
-          title={currentPage}
+          formName={currentPage}
           recordsets={recordsets}
           addData={(recordset) => this.addData(recordset)}
           editData={(ID, recordset) => this.editData(ID, recordset)}
@@ -97,11 +108,15 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return { errorStatus: state.Error.Status, databaseName: state.Databases.CurrentDatabase.Name };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    errorOccur: (data) =>
+      dispatch({ type: actionsTypes.ERROR_OCCUR, data: data }),
+    errorClear: () => dispatch({ type: actionsTypes.ERROR_CLEAR }),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

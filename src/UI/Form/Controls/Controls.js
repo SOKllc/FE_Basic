@@ -25,6 +25,10 @@ const controls = (props) => {
     props.controlsAction("DELETE");
   };
 
+  const onOK = () => {
+    props.controlsAction("OK");
+  };
+
   let isDisabled = props.inputsChanged ? false : true;
 
   const cancelButton = (
@@ -57,31 +61,47 @@ const controls = (props) => {
     </Button>
   );
 
+  const OKButton = (
+    <Button btnType="Normal" clicked={onOK}>
+      OK
+    </Button>
+  );
+
   if (props.hideModal) {
     return (
       <div className="Controls">
         {props.addNew || props.inputsChanged ? null : closeButton}
-        {props.addNew || props.inputsChanged ? null : addNewButton}
-        {props.addNew || props.inputsChanged
+        {props.addNew || props.inputsChanged || props.formType === "InputForm"
+          ? null
+          : addNewButton}
+        {props.addNew || props.inputsChanged || props.formType === "InputForm"
           ? props.emptyData
             ? null
             : cancelButton
           : null}
-        {saveButton}
-        {props.addNew || props.inputsChanged ? null : deleteButton}
+        {props.formType === "InputForm" ? null : saveButton}
+        {props.formType === "InputForm" ? OKButton : null}
+        {props.addNew || props.inputsChanged || props.formType === "InputForm"
+          ? null
+          : deleteButton}
       </div>
     );
   } else {
     return (
       <div className="Controls">
-        {props.addNew || props.inputsChanged ? null : addNewButton}
-        {props.addNew || props.inputsChanged
+        {props.addNew || props.inputsChanged || props.formType === "InputForm"
+          ? null
+          : addNewButton}
+        {props.addNew || props.inputsChanged || props.formType === "InputForm"
           ? props.emptyData
             ? null
             : cancelButton
           : null}
-        {saveButton}
-        {props.addNew || props.inputsChanged ? null : deleteButton}
+        {props.formType === "InputForm" ? null : saveButton}
+        {props.formType === "InputForm" ? OKButton : null}
+        {props.addNew || props.inputsChanged || props.formType === "InputForm"
+          ? null
+          : deleteButton}
       </div>
     );
   }

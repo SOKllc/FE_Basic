@@ -1,9 +1,13 @@
 import { combineReducers } from "redux";
 
-import schemaReducer from "./Schema/Schema";
+import errorReducer from "./Error/Error";
+import authReducer from "./Auth/Auth";
+import databasesReducer from "./Databases/Databases";
 
 const reducer = combineReducers({
-  Schema: schemaReducer,
+  Error: errorReducer,
+  Auth: authReducer,
+  Databases: databasesReducer,
 });
 
 export default reducer;

@@ -1,0 +1,25 @@
+.DataForm {
+    width: 100%;
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.DataForm header {
+    height: auto;
+    min-height: 25px;
+}
+
+.DataForm .Content {
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.DataForm footer {
+    height: auto;
+    min-height: 25px;
+}

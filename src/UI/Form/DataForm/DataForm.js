@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import "./Form.css";
+import "./DataForm.css";
 
-import Alert from "./Alert/Alert";
-import Header from "../../Components/MyComponents/Header/Header";
-import Content from "../../Components/MyComponents/Content/Content";
-import Footer from "../../Components/MyComponents/Footer/Footer";
-import Navigation from "./Navigation/Navigation";
-import Inputs from "./Inputs/Inputs";
-import Controls from "./Controls/Controls";
+import Alert from "../Alert/Alert";
+import Header from "../../../Components/MyComponents/Header/Header";
+import Content from "../../../Components/MyComponents/Content/Content";
+import Footer from "../../../Components/MyComponents/Footer/Footer";
+import Navigation from "../Navigation/Navigation";
+import Inputs from "../Inputs/Inputs";
+import Controls from "../Controls/Controls";
 
-class Form extends Component {
+class DataForm extends Component {
   state = {
-    formType: this.props.Type,
+    formType: "DataForm",
     formName: this.props.formName,
-    formTable: this.props.Tables[this.props.formName],
+    formSchema: this.props.Tables[this.props.formName],
     formAlert: null,
     formAddNew: this.props.recordsets.length === 0 ? true : false,
     formDataStatus: this.props.recordsets ? true : false,
@@ -116,7 +116,7 @@ class Form extends Component {
     let formID = this.state.formID;
     let inputs = document.getElementById(formID).getElementsByTagName("input");
     let inputsValues = {};
-    let httpInputs = this.state.formTable.Columns.filter((column) => {
+    let httpInputs = this.state.formSchema.Columns.filter((column) => {
       return column.Config.isHTTPInput;
     }).reduce((acc, cur) => (acc = [...acc, cur.Name]), []);
     Array.from(inputs).forEach((input) => {
@@ -190,7 +190,7 @@ class Form extends Component {
   };
 
   checkValidation = (inputName) => {
-    let inputsValidation = this.state.formTable.Columns.filter((column) => {
+    let inputsValidation = this.state.formSchema.Columns.filter((column) => {
       return column.Name === inputName;
     });
     let inputValidation = inputsValidation[0].validation;
@@ -218,7 +218,7 @@ class Form extends Component {
   getDefaultValue = (input) => {
     let inputName = input.name;
     let inputType = input.type;
-    let inputsDefaultValue = this.state.formTable.Columns.filter((column) => {
+    let inputsDefaultValue = this.state.formSchema.Columns.filter((column) => {
       return column.Name === inputName;
     });
     let defaultValue = inputsDefaultValue[0].Config.defaultValue;
@@ -339,7 +339,7 @@ class Form extends Component {
 
   render() {
     return (
-      <div id={this.state.formID} className="Form">
+      <div id={this.state.formID} className="DataForm">
         <Alert
           show={this.state.formAlert}
           formAlert={this.state.formAlert}
@@ -359,13 +359,14 @@ class Form extends Component {
           />
           <br />
           <Inputs
-            formTable={this.state.formTable}
+            formSchema={this.state.formSchema}
             recordset={this.state.formRecordset}
             parentID={this.state.formID}
             onInputChange={(event) => this.onInputChange(event)}
           />
           <br />
           <Controls
+            formType={this.state.formType}
             controlsAction={(controlType) => this.controlsAction(controlType)}
             hideModal={this.props.hideModal}
             addNew={this.state.formAddNew}
@@ -389,4 +390,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(DataForm);

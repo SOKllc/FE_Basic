@@ -7,13 +7,13 @@ import Content from "../../../../Components/MyComponents/Content/Content";
 import Footer from "../../../../Components/MyComponents/Footer/Footer";
 
 const sidebar = (props) => {
-  return (
+  return props.show ? (
     <div className={classes.Sidebar}>
       <Header>Header</Header>
       <Content>Sidebar</Content>
       <Footer>Footer</Footer>
     </div>
-  );
+  ) : null;
 };
 
 export default sidebar;

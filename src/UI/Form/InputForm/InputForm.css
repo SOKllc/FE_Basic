@@ -1,0 +1,24 @@
+.InputForm {
+    width: 100%;
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.InputForm header {
+    height: auto;
+    min-height: 25px;
+}
+
+.InputForm .Content {
+    gap: 5px;
+}
+
+.InputForm footer {
+    height: auto;
+    min-height: 25px;
+}
