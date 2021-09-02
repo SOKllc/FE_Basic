@@ -3,26 +3,36 @@ import { connect } from "react-redux";
 
 import "./Form.css";
 
-import Alert from "./Alert/Alert";
 import Header from "../../Components/MyComponents/Header/Header";
 import Content from "../../Components/MyComponents/Content/Content";
 import Footer from "../../Components/MyComponents/Footer/Footer";
+
+import Alert from "./Alert/Alert";
 import Navigation from "./Navigation/Navigation";
 import Inputs from "./Inputs/Inputs";
 import Controls from "./Controls/Controls";
+
+import * as formTypes from "./Types";
 
 class Form extends Component {
   state = {
     formType: this.props.Type,
     formName: this.props.formName,
-    formTable: this.props.Tables[this.props.formName],
+    formTable:
+      this.props.Type === formTypes.INPUT_FORM
+        ? this.props.BuiltInTables[this.props.formName]
+        : this.props.Tables[this.props.formName],
     formAlert: null,
-    formAddNew: this.props.recordsets.length === 0 ? true : false,
-    formDataStatus: this.props.recordsets ? true : false,
+    formAddNew:
+      this.props.Type === formTypes.INPUT_FORM
+        ? false
+        : this.props.recordsets.length === 0,
+    formDataStatus:
+      this.props.Type === formTypes.INPUT_FORM ? false : this.props.recordsets,
     formTitle: this.props.formName,
     formID: this.props.formID
-      ? this.props.formName + this.props.formID
-      : this.props.formName,
+      ? this.props.formName + "-" + this.props.Type + "-" + this.props.formID
+      : this.props.formName + "-" + this.props.Type,
     formTotalRecords: this.props.recordsets
       ? this.props.currentRecord
         ? 1
@@ -31,7 +41,9 @@ class Form extends Component {
     formCurrentRecord: this.props.currentRecord ? this.props.currentRecord : 0,
     formRecordsets: this.props.recordsets,
     formRecordset:
-      this.props.recordsets.length > 0
+      this.props.Type === formTypes.INPUT_FORM
+        ? {}
+        : this.props.recordsets.length > 0
         ? this.props.recordsets[
             this.props.currentRecord ? this.props.currentRecord : 0
           ]
@@ -57,16 +69,13 @@ class Form extends Component {
       let alertResponse = this.state.formAlert.response;
       switch (alertResponse) {
         case "YES":
-          this.onSave();
-          break;
+          return this.onSave();
         case "NO":
-          this.onCancel();
-          break;
+          return this.onCancel();
         case "CANCEL":
-          this.hideAlert();
-          break;
+          return this.hideAlert();
         default:
-          break;
+          return;
       }
     };
   };
@@ -86,26 +95,21 @@ class Form extends Component {
           let inputType = input.type;
           switch (inputType) {
             case "checkbox":
-              input.checked = inputValue ? true : false;
-              break;
+              return input.checked = inputValue ? true : false;
             case "number":
-              inputValue === null
+              return inputValue === null
                 ? (input.value = 0)
                 : (input.value = inputValue);
-              break;
             case "text":
-              inputValue === null
+              return inputValue === null
                 ? (input.value = "")
                 : (input.value = inputValue.trim());
-              break;
             case "password":
-              inputValue === null
+              return inputValue === null
                 ? (input.value = "")
                 : (input.value = inputValue.trim());
-              break;
             default:
-              input.value = inputValue;
-              break;
+              return input.value = inputValue;
           }
         });
       }
@@ -258,20 +262,27 @@ class Form extends Component {
   };
 
   onCancel = () => {
-    this.setInputsValues(this.state.formRecordset);
-    this.setState(
-      {
-        formAddNew: false,
-        formInputsChanged: false,
-      },
-      () => {
-        if (this.state.formAlert) {
-          let newRecord = this.state.formAlert.newRecord;
-          this.onCurrentRecord(newRecord);
+    if (this.state.formType === formTypes.INPUT_FORM) {
+      this.setState({ formInputsChanged: false }, () => {
+        this.clearInputsValues();
+        this.props.hideModal();
+      });
+    } else {
+      this.setInputsValues(this.state.formRecordset);
+      this.setState(
+        {
+          formAddNew: false,
+          formInputsChanged: false,
+        },
+        () => {
+          if (this.state.formAlert) {
+            let newRecord = this.state.formAlert.newRecord;
+            this.onCurrentRecord(newRecord);
+          }
+          this.hideAlert();
         }
-        this.hideAlert();
-      }
-    );
+      );
+    }
   };
 
   onClose = () => {
@@ -314,26 +325,29 @@ class Form extends Component {
     this.props.deleteData(httpID);
   };
 
+  onOK = () => {
+    if (this.state.formInputsChanged) {
+      let recordset = this.getInputsValues("httpData");
+      this.props.addData(recordset);
+    }
+  };
+
   controlsAction = (controlType) => {
     switch (controlType) {
       case "CANCEL":
-        this.onCancel();
-        break;
+        return this.onCancel();
       case "SAVE":
-        this.onSave();
-        break;
+        return this.onSave();
       case "ADD_NEW":
-        this.onAddNew();
-        break;
+        return this.onAddNew();
       case "CLOSE":
-        this.onClose();
-        break;
+        return this.onClose();
       case "DELETE":
-        this.onDelete();
-        break;
+        return this.onDelete();
+      case "OK":
+        return this.onOK();
       default:
         console.log("Form control not Specified...");
-        break;
     }
   };
 
@@ -360,16 +374,22 @@ class Form extends Component {
           <br />
           <Inputs
             formTable={this.state.formTable}
+            formSchema={this.state.formTable} // will be deleted
             recordset={this.state.formRecordset}
             parentID={this.state.formID}
             onInputChange={(event) => this.onInputChange(event)}
           />
           <br />
           <Controls
+            formType={this.state.formType}
             controlsAction={(controlType) => this.controlsAction(controlType)}
             hideModal={this.props.hideModal}
             addNew={this.state.formAddNew}
-            emptyData={this.props.recordsets.length === 0}
+            emptyData={
+              this.state.formType === formTypes.INPUT_FORM
+                ? false
+                : this.props.recordsets.length === 0
+            }
             inputsChanged={this.state.formInputsChanged}
           />
         </Content>
@@ -381,6 +401,7 @@ class Form extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    BuiltInTables: state.Databases.BuiltInTables,
     Tables: state.Databases.CurrentDatabase.Tables,
   };
 };

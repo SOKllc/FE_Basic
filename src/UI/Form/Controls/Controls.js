@@ -70,7 +70,9 @@ const controls = (props) => {
   if (props.hideModal) {
     return (
       <div className="Controls">
-        {props.addNew || props.inputsChanged ? null : closeButton}
+        {props.addNew || props.inputsChanged || props.formType === "InputForm"
+          ? null
+          : closeButton}
         {props.addNew || props.inputsChanged || props.formType === "InputForm"
           ? null
           : addNewButton}

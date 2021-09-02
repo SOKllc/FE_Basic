@@ -15,7 +15,7 @@ class DataForm extends Component {
   state = {
     formType: "DataForm",
     formName: this.props.formName,
-    formSchema: this.props.Tables[this.props.formName],
+    formTable: this.props.Tables[this.props.formName],
     formAlert: null,
     formAddNew: this.props.recordsets.length === 0 ? true : false,
     formDataStatus: this.props.recordsets ? true : false,
@@ -116,7 +116,7 @@ class DataForm extends Component {
     let formID = this.state.formID;
     let inputs = document.getElementById(formID).getElementsByTagName("input");
     let inputsValues = {};
-    let httpInputs = this.state.formSchema.Columns.filter((column) => {
+    let httpInputs = this.state.formTable.Columns.filter((column) => {
       return column.Config.isHTTPInput;
     }).reduce((acc, cur) => (acc = [...acc, cur.Name]), []);
     Array.from(inputs).forEach((input) => {
@@ -190,7 +190,7 @@ class DataForm extends Component {
   };
 
   checkValidation = (inputName) => {
-    let inputsValidation = this.state.formSchema.Columns.filter((column) => {
+    let inputsValidation = this.state.formTable.Columns.filter((column) => {
       return column.Name === inputName;
     });
     let inputValidation = inputsValidation[0].validation;
@@ -218,7 +218,7 @@ class DataForm extends Component {
   getDefaultValue = (input) => {
     let inputName = input.name;
     let inputType = input.type;
-    let inputsDefaultValue = this.state.formSchema.Columns.filter((column) => {
+    let inputsDefaultValue = this.state.formTable.Columns.filter((column) => {
       return column.Name === inputName;
     });
     let defaultValue = inputsDefaultValue[0].Config.defaultValue;
@@ -359,7 +359,7 @@ class DataForm extends Component {
           />
           <br />
           <Inputs
-            formSchema={this.state.formSchema}
+            formTable={this.state.formTable}
             recordset={this.state.formRecordset}
             parentID={this.state.formID}
             onInputChange={(event) => this.onInputChange(event)}

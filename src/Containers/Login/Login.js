@@ -15,6 +15,9 @@ import AxiosInstance from "../../Connections/Axios/Axios";
 
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import Spinner from "../../UI/Spinner/Spinner";
+
+import Form from "../../UI/Form/Form";
+import * as formTypes from "../../UI/Form/Types";
 import InputForm from "../../UI/Form/InputForm/InputForm";
 
 class Login extends Component {
@@ -87,8 +90,9 @@ class Login extends Component {
 
     let Content = (
       <Aux>
-        <InputForm
+        <Form
           {...this.props}
+          Type={formTypes.INPUT_FORM}
           formName={currentPage}
           addData={(recordset) => this.addData(recordset)}
         />

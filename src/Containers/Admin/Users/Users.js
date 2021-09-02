@@ -13,6 +13,9 @@ import AxiosInstance from "../../../Connections/Axios/Axios";
 
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import Spinner from "../../../UI/Spinner/Spinner";
+
+import Form from "../../../UI/Form/Form";
+import * as formTypes from "../../../UI/Form/Types";
 import DataForm from "../../../UI/Form/DataForm/DataForm";
 
 class Users extends Component {
@@ -31,10 +34,9 @@ class Users extends Component {
         DatabaseName: this.props.databaseName,
       },
     };
-    AxiosInstance.get(`/${httpURL}`, axiosConfig)
-      .then((res) => {
-        this.setState({ ...res.data, DataStatus: true });
-      })
+    AxiosInstance.get(`/${httpURL}`, axiosConfig).then((res) => {
+      this.setState({ ...res.data, DataStatus: true });
+    });
   };
 
   addData = (recordset) => {
@@ -45,11 +47,10 @@ class Users extends Component {
     };
     return new Promise((resolve, reject) => {
       this.setState({ DataStatus: false }, () => {
-        AxiosInstance.post(`/${httpURL}`, recordset, axiosConfig)
-          .then(() => {
-            resolve();
-            this.getData();
-          })
+        AxiosInstance.post(`/${httpURL}`, recordset, axiosConfig).then(() => {
+          resolve();
+          this.getData();
+        });
       });
     });
   };
@@ -89,12 +90,15 @@ class Users extends Component {
   };
 
   render() {
-    let recordsets = !this.state.DataStatus ? [] : this.state.Connection.MainData;
+    let recordsets = !this.state.DataStatus
+      ? []
+      : this.state.Connection.MainData;
 
     let Content = (
       <Aux>
-        <DataForm
+        <Form
           {...this.props}
+          Type={formTypes.DATA_FORM}
           formName={currentPage}
           recordsets={recordsets}
           addData={(recordset) => this.addData(recordset)}
@@ -108,7 +112,10 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { errorStatus: state.Error.Status, databaseName: state.Databases.CurrentDatabase.Name };
+  return {
+    errorStatus: state.Error.Status,
+    databaseName: state.Databases.CurrentDatabase.Name,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

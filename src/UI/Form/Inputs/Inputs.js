@@ -3,7 +3,7 @@ import React from "react";
 import Input from "./Input/Input";
 
 const inputs = (props) => {
-  let inputs = props.formSchema.Columns;
+  let inputs = props.formTable.Columns;
   return inputs.map((input) => {
     return (
       <Input
