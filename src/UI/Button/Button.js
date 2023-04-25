@@ -20,6 +20,7 @@ const button = (props) => {
 
   return (
     <button
+      id={props.id}
       className={className}
       onClick={props.clicked}
       disabled={props.isDisabled}

@@ -12,11 +12,15 @@ import * as actionsTypes from "../../../Store/Actions/Actions";
 import AxiosInstance from "../../../Connections/Axios/Axios";
 
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
+
 import Spinner from "../../../UI/Spinner/Spinner";
+import Button from "../../../UI/Button/Button";
 
 import Form from "../../../UI/Form/Form";
-import * as formTypes from "../../../UI/Form/Types";
-import DataForm from "../../../UI/Form/DataForm/DataForm";
+import * as Types from "../../../UI/Form/Types";
+
+import Preferances from "../../Related/Preferances/Preferances";
+import Priviliges from "../../Related/Priviliges/Priviliges";
 
 class Users extends Component {
   state = {
@@ -90,20 +94,24 @@ class Users extends Component {
   };
 
   render() {
-    let recordsets = !this.state.DataStatus
-      ? []
-      : this.state.Connection.MainData;
+    let recordsets = [];
+    let relatedData = {};
+    if (this.state.DataStatus) {
+      recordsets = this.state.Connection.MainData;
+      relatedData = this.state.Connection.RelatedData;
+    }
 
     let Content = (
       <Aux>
         <Form
           {...this.props}
-          Type={formTypes.DATA_FORM}
-          formName={currentPage}
+          Type={Types.DATA_FORM}
+          Name={currentPage}
           recordsets={recordsets}
           addData={(recordset) => this.addData(recordset)}
           editData={(ID, recordset) => this.editData(ID, recordset)}
           deleteData={(ID) => this.deleteData(ID)}
+          relatedData={relatedData}
         />
       </Aux>
     );
@@ -115,6 +123,7 @@ const mapStateToProps = (state) => {
   return {
     errorStatus: state.Error.Status,
     databaseName: state.Databases.CurrentDatabase.Name,
+    tableInformations: state.Databases.CurrentDatabase.Tables[currentPage],
   };
 };
 

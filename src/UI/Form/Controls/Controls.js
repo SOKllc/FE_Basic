@@ -2,6 +2,8 @@ import React from "react";
 
 import "./Controls.css";
 
+import * as Types from "../Types";
+
 import Button from "../../Button/Button";
 
 const controls = (props) => {
@@ -67,7 +69,9 @@ const controls = (props) => {
     </Button>
   );
 
-  if (props.hideModal) {
+  if (props.formType === Types.SUB_FORM) {
+    return null;
+  } else if (props.hideModal) {
     return (
       <div className="Controls">
         {props.addNew || props.inputsChanged || props.formType === "InputForm"

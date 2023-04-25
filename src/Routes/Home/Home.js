@@ -64,7 +64,10 @@ class Home extends Component {
   };
 
   render() {
-    let recordsets = !this.state.DataStatus ? [] : this.state.Connection.MainData;
+    let recordsets = [];
+    if (this.state.DataStatus) {
+      recordsets = this.state.Connection.MainData;
+    }
 
     let modalForm = this.state.modalForm;
 

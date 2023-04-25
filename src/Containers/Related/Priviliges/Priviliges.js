@@ -1,5 +1,5 @@
 const currentDirectory = "Related";
-const currentPage = "Preferances";
+const currentPage = "Priviliges";
 let httpURL = currentDirectory
   ? currentDirectory + "/" + currentPage
   : currentPage;
@@ -16,7 +16,7 @@ import Spinner from "../../../UI/Spinner/Spinner";
 import Form from "../../../UI/Form/Form";
 import * as Types from "../../../UI/Form/Types";
 
-class Preferances extends Component {
+class Priviliges extends Component {
   state = {
     WelcomeMessage: `Hello ${currentPage}...`,
     DataStatus: false,
@@ -68,4 +68,4 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Preferances);
+export default connect(mapStateToProps, mapDispatchToProps)(Priviliges);

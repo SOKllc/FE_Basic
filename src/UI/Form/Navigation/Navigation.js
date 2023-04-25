@@ -2,6 +2,8 @@ import React from "react";
 
 import "./Navigation.css";
 
+import * as Types from "../Types";
+
 import Button from "../../Button/Button";
 import Label from "../../Label/Label";
 
@@ -41,7 +43,7 @@ const navigation = (props) => {
     </Button>
   );
 
-  if (props.totalRecords > 1) {
+  if (props.totalRecords > 1 && !(props.formType === Types.SUB_FORM)) {
     return (
       <nav className="Navigation">
         <Button btnType="Icon" clicked={moveFirst} isDisabled={props.addNew}>
